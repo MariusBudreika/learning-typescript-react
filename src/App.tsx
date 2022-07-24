@@ -1,10 +1,13 @@
-import './App.css';
+import styles from "./App.module.scss";
+import InputField from "./components/InputField";
 
-function App() {
+const App: React.FC = () => {
   return (
-    <div className="App">
-    </div>
+    <>
+      <h1 className={styles.label}>Todo list</h1>
+      <InputField />
+    </>
   );
-}
+};
 
 export default App;
