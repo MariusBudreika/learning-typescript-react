@@ -1,11 +1,26 @@
+import React, { useState } from "react";
 import styles from "./App.module.scss";
 import InputField from "./components/InputField";
+import { Todo } from "./components/model";
+import TodoList from "./components/TodoList";
 
 const App: React.FC = () => {
+  const [todo, setTodo] = useState<string>("");
+  const [todos, setTodos] = useState<Todo[]>([]);
+
+  const handleAdd = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (todo) {
+      setTodos([...todos, { id: Date.now(), todo: todo, isDone: false }]);
+      setTodo("");
+    }
+  };
+
   return (
     <>
       <h1 className={styles.label}>Todo list</h1>
-      <InputField />
+      <InputField todo={todo} setTodo={setTodo} handleAdd={handleAdd} />
+      <TodoList todos={todos} setTodos={setTodos} />
     </>
   );
 };
