@@ -23,6 +23,16 @@
             cursor: pointer;
         }
     }
+
+    &Input {
+        padding: 0.2rem;
+        flex:1;
+        border: none;
+    }
+
+    &Input:focus {
+        outline: none;
+    }
 }
 
 @media (max-width: 1200px) {

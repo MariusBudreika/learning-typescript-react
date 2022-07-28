@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styles from "./SingleTodo.module.scss";
 import { Todo } from "../components/model";
 import { AiFillEdit, AiFillDelete } from "react-icons/ai";
@@ -11,7 +11,10 @@ interface Props {
 }
 
 const SingleTodo: React.FC<Props> = ({ todo, todos, setTodos }) => {
-  const handleDone = (id: number) => {
+  const [edit, setEdit] = useState<boolean>(false);
+  const [editTodo, setEditTodo] = useState<string>(todo.todo);
+
+  const doneHandler = (id: number) => {
     setTodos(
       todos.map((todo) =>
         todo.id === id ? { ...todo, isDone: !todo.isDone } : todo
@@ -19,25 +22,54 @@ const SingleTodo: React.FC<Props> = ({ todo, todos, setTodos }) => {
     );
   };
 
-  const handleDelete = (id: number) => {
+  const deleteHandler = (id: number) => {
     setTodos(todos.filter((todo) => todo.id !== id));
   };
 
+  const editHandler = (e: React.FormEvent, id: number) => {
+    e.preventDefault();
+
+    setTodos(
+      todos.map((todo) => (todo.id === id ? { ...todo, todo: editTodo } : todo))
+    );
+    setEdit(false);
+  };
+
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, [edit]);
+
+  const inputRef = useRef<HTMLInputElement>(null);
+
   return (
-    <form className={styles.todo}>
-      {todo.isDone ? (
+    <form className={styles.todo} onSubmit={(e) => editHandler(e, todo.id)}>
+      {edit ? (
+        <input
+          ref={inputRef}
+          value={editTodo}
+          onChange={(e) => setEditTodo(e.target.value)}
+          className={styles.todoInput}
+        />
+      ) : todo.isDone ? (
         <s className={styles.todoText}>{todo.todo}</s>
       ) : (
         <span className={styles.todoText}>{todo.todo}</span>
       )}
+
       <div className={styles.todoIcons}>
         <span>
-          <AiFillEdit />
+          <AiFillEdit
+            onClick={() => {
+              if (!edit && !todo.isDone) {
+                setEdit(!edit);
+              }
+            }}
+          />
         </span>
-        <span onClick={() => handleDelete(todo.id)}>
+        <span onClick={() => deleteHandler(todo.id)}>
           <AiFillDelete />
         </span>
-        <span onClick={() => handleDone(todo.id)}>
+        <span onClick={() => doneHandler(todo.id)}>
           <MdDone />
         </span>
       </div>
