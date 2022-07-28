@@ -1,0 +1,11 @@
+.label {
+    z-index: 1;
+    margin: 2rem 0;
+}
+
+@media (max-width: 800px) {
+    .label {
+        font-size: 2rem;
+        margin: 1rem 0;
+    }
+}
