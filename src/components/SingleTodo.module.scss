@@ -1,0 +1,38 @@
+.todo {
+    display: flex;
+    width: 30%;
+    border-radius: 5px;
+    padding: 0.5rem;
+    margin-top: 1rem;
+    background-image: url(https://c1.wallpaperflare.com/preview/265/345/113/paper-page-background-texture.jpg);
+    
+    &Text {
+        flex: 1;
+        padding: 0.3rem;
+        display: flex;
+        word-break: break-all;
+        align-items: center;
+    }
+
+    &Icons {
+        display: flex;
+        align-items: center;
+
+        span {
+            margin-left: 0.3rem;
+            cursor: pointer;
+        }
+    }
+}
+
+@media (max-width: 1200px) {
+    .todo {
+        width: 40%;
+    }
+}
+
+@media (max-width: 700px) {
+    .todo {
+        width: 90%;
+    }
+} 
